@@ -13,6 +13,7 @@ public class quadraticApp {
 
    		quadratic q1 = new quadratic(a,b,c);
    		q1.solveQuad();
+   		q1.standardForm();
    		
    }
 }
