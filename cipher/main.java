@@ -19,6 +19,8 @@ public class main {
         System.out.println(c.encode("ABCDE"));
 		c.newShift(-7);
         System.out.println(c.encode("ABCDE"));
+        c.newShift(3);
+        System.out.println(c.encode("abc"));
 		c.newShift(7);
         System.out.println(c.encode("THE END IS NEAR"));
 		c.newShift(-4);

@@ -3,7 +3,8 @@ public class Cipher {
     
     // Apparently, there's no way to turn a hash code of a char back into a char, therefore I just wrote out this reference table.
     private char[] hashTable = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-	
+	private char[] hashLowerTable = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+
 	public Cipher(int newShift) {
 	    // Fix extra
 	    if (newShift<0){
@@ -29,12 +30,20 @@ public class Cipher {
 		// Iterate through the characters of the string
 		StringBuilder shiftedString = new StringBuilder();
 		for (char i : list) {
-		    if (Character.isUpperCase(i)){
-		        // calculate the new hash code
-		        int newHashCode = (Character.hashCode(i) - 65 + shift)%26;
-		        
-		        // apply the caesar shift char
-		        shiftedString.append(hashTable[newHashCode]);
+		    if (Character.isLetter(i)) {
+    		    if (Character.isUpperCase(i)){
+    		        // calculate the new hash code
+    		        int newHashCode = (Character.hashCode(i) - 65 + shift)%26;
+    		        
+    		        // apply the caesar shift char
+    		        shiftedString.append(hashTable[newHashCode]);
+    		    } else {
+    		        // calculate the new hash code
+    		        int newHashCode = (Character.hashCode(i) - 97 + shift)%26;
+    		        
+    		        // apply the caesar shift char
+    		        shiftedString.append(hashLowerTable[newHashCode]);
+    		    }
 		    } else {
 		        // If the char is not a capital, just append the character
 		        shiftedString.append(i);
