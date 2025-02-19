@@ -1,8 +1,13 @@
-import java.lang.Math;
-import java.util.Scanner;
-
 public class test {
 	public static void main(String[] args) {
-		System.out.println(-3%2);
+		double[] slope = {5/3};
+		System.out.println(slope);
+
+		int[] range = new int[1000];
+		for (int i = 0; i < 1000; i++) {
+			range[i] = i;
+			System.out.println(i);
+		}
+		
 	}
 }

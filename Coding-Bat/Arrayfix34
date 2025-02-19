@@ -1,0 +1,17 @@
+public int[] fix34(int[] nums) {
+  int[] ret = new int[nums.length];
+  int counter = 0;
+  for (int i:nums) {
+  	if (i != 4) {
+	    ret[counter] = i;
+	  	counter ++;
+
+	  	if (i==3){
+	  		ret[counter] = 4;
+	  		counter ++;
+	  	}
+	}
+  }
+
+  return ret;
+}
