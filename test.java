@@ -1,5 +1,5 @@
 public class test {
-
+	static int test = 0;
     public static void main(String[] args) {
         String test = "hellooo";
 
@@ -20,4 +20,5 @@ public class test {
             );
         }
     }
+    public 
 }
