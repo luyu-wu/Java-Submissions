@@ -86,7 +86,7 @@ public class account {
 
     public void savePurchase(purchase Purchase) {
         try {
-            FileWriter writer = new FileWriter(purchaseFileName);
+            FileWriter writer = new FileWriter(purchaseFileName, true);
             writer.write(encryptKey.encode(Purchase.toString() + "\n"));
             writer.close();
         } catch (IOException e) {
@@ -96,12 +96,8 @@ public class account {
 
     public void saveLoan(loan Loan) {
         try {
-            FileWriter writer = new FileWriter(loanFileName);
-            writer.write(
-                readFile(loanFileName) +
-                encryptKey.encode(Loan.toString()) +
-                "\n"
-            );
+            FileWriter writer = new FileWriter(loanFileName, true);
+            writer.write(encryptKey.encode(Loan.toString()) + "\n");
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -117,7 +113,7 @@ public class account {
                 encrypted = encrypted + scan.nextLine() + "\n";
             }
             scan.close();
-            return encrypted;
+            return encryptKey.decode(encrypted);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
