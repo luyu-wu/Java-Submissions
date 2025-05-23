@@ -5,8 +5,12 @@ import java.util.Date;
  */
 public class studentAccount extends account {
 
-    public studentAccount(String passportNumber, int birthYear) {
-        super(passportNumber, birthYear);
+    public studentAccount(
+        String passportNumber,
+        int birthYear,
+        String firstName
+    ) {
+        super(passportNumber, birthYear, firstName);
         Date currentDate = new Date();
         if (birthYear - currentDate.getYear() > 18) { // Deprecated but idk why
             throw new IllegalArgumentException(

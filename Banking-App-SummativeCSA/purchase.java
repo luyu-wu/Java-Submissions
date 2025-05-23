@@ -20,4 +20,19 @@ public class purchase {
     public double getAmount() {
         return amount;
     }
+
+    public String toString() {
+        return (
+            "AMOUNT:" +
+            amount +
+            "|VENDOR:" +
+            vendorAcc.getName() +
+            "|BUYER:" +
+            buyerAcc.getName() +
+            "|DATE:" +
+            date +
+            "|DESCRIPTION:" +
+            purchaseDescription
+        );
+    }
 }

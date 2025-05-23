@@ -22,4 +22,10 @@ public class loan {
         account.purchaseAPI(payback);
         amount -= pay;
     }
+
+    public String toString() {
+        return (
+            "AMOUNT:" + amount + "|INTEREST:" + interestRate + "|DATE:" + date
+        );
+    }
 }

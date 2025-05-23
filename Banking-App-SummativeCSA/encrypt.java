@@ -1,4 +1,5 @@
 // Taken from an earlier project (written by Luyu tho)
+// Minor edits were made to how this works
 
 public class encrypt {
 
@@ -109,18 +110,12 @@ public class encrypt {
         return shiftedString.toString();
     }
 
-    public void decode(String decodeString) {
+    public String decode(String decodeString) {
         // Save the original value of the shift
-        int restoreShift = shift;
-
-        // Loop through caesar shift values.
-        for (int i = 1; i < 26; i++) {
-            System.out.print(i);
-            shift = i;
-            System.out.println(" Deciphered Text : " + encode(decodeString));
-        }
-
+        newShift(-shift);
+        String decoded = encode(decodeString);
         // Return the encode shift to its original value
-        shift = restoreShift;
+        newShift(-shift);
+        return decoded;
     }
 }

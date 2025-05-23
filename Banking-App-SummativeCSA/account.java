@@ -21,7 +21,7 @@ public class account {
     private String purchaseFileName;
     private String loanFileName;
 
-    private encrypt encryptKey = new encrypt((int) Math.random() * 1000);
+    private encrypt encryptKey;
 
     /**
      * Default constructor for creating a new account.
@@ -33,6 +33,12 @@ public class account {
         this.balance = 0;
         purchaseFileName = firstName + "PURCHASEHISTORY.txt";
         loanFileName = firstName + "LOANHISTORY.txt";
+
+        int nameKey = 0;
+        for (int i = 0; i < firstName.length(); i++) {
+            nameKey += (int) firstName.charAt(i); // Convert name into a unique integer key (AI generated strategy)
+        }
+        encryptKey = new encrypt(nameKey);
 
         // Create necessary files
         try {
@@ -52,6 +58,14 @@ public class account {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getName() {
+        return firstName;
     }
 
     public boolean purchase(
@@ -98,6 +112,28 @@ public class account {
     public void purchaseAPI(purchase purchase) {
         this.savePurchase(purchase);
         this.balance += purchase.getAmount();
+    }
+
+    public loan[] sortedLoans() {
+        try {
+            File file = new File(loanFileName);
+            Scanner scan = new Scanner(file);
+            String encrypted = "";
+            while (scan.hasNextLine()) {
+                encrypted = encrypted + scan.nextLine();
+            }
+            String string = encryptKey.decode(encrypted);
+            String[] lines = string.split("\n");
+            loan[] loans = new loan[lines.length];
+            for (int i = 0; i < lines.length; i++) {
+                loans[i] = new loan(1.00, 1.01);
+            }
+
+            return loans;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     /**
