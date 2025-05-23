@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Represents a bank account with user information and financial data.
@@ -7,7 +8,7 @@ public class account {
 
     // User information
     private String passportNumber;
-    private int birthdate;
+    private Date birthdate;
 
     // Dynamic data
     private double balance;
@@ -17,7 +18,9 @@ public class account {
     /**
      * Default constructor for creating a new account.
      */
-    public account() {
+    public account(String passportNumString, int birthYear) {
+        this.passportNumber = passportNumString;
+        this.birthdate = new Date(birthYear);
         this.balance = 0;
         this.loans = new ArrayList<loan>();
         this.purchaseHistory = new ArrayList<purchase>();

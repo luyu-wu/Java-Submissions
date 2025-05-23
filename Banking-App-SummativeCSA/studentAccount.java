@@ -1,7 +1,19 @@
+import java.util.Date;
+
 /**
  * Represents a student account with special loan conditions.
  */
 public class studentAccount extends account {
+
+    public studentAccount(String passportNumber, int birthYear) {
+        super(passportNumber, birthYear);
+        Date currentDate = new Date();
+        if (birthYear - currentDate.getYear() > 18) { // Deprecated but idk why
+            throw new IllegalArgumentException(
+                "Student must be under 18 years old"
+            );
+        }
+    }
 
     /**
      * Take a student loan with zero interest.
