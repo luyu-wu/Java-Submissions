@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class account {
 
     // User information
-    private String passportNumber;
     private Date birthdate;
     private String firstName;
 
@@ -26,13 +25,12 @@ public class account {
     /**
      * Default constructor for creating a new account.
      */
-    public account(String passportNumString, int birthYear, String firstName) {
-        this.passportNumber = passportNumString;
+    public account(int birthYear, String firstName) {
         this.birthdate = new Date(birthYear);
         this.firstName = firstName;
         this.balance = 0;
-        purchaseFileName = firstName + "PURCHASEHISTORY.txt";
-        loanFileName = firstName + "LOANHISTORY.txt";
+        purchaseFileName = "Data/" + firstName + "PURCHASEHISTORY.txt";
+        loanFileName = "Data/" + firstName + "LOANHISTORY.txt";
 
         int nameKey = 0;
         for (int i = 0; i < firstName.length(); i++) {
@@ -44,15 +42,12 @@ public class account {
         try {
             File f1 = new File(loanFileName);
             File f2 = new File(purchaseFileName);
-            if (f1.createNewFile()) {
-                System.out.println("File created: " + f1.getName());
+            if (f1.createNewFile() && f2.createNewFile()) {
+                System.out.println(
+                    "File created: " + f1.getName() + ", " + f2.getName()
+                );
             } else {
-                System.out.println("File already exists.");
-            }
-            if (f2.createNewFile()) {
-                System.out.println("File created: " + f2.getName());
-            } else {
-                System.out.println("File already exists.");
+                System.out.println("Files already created.");
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -102,11 +97,31 @@ public class account {
     public void saveLoan(loan Loan) {
         try {
             FileWriter writer = new FileWriter(loanFileName);
-            writer.write(encryptKey.encode(Loan.toString() + "\n"));
+            writer.write(
+                readFile(loanFileName) +
+                encryptKey.encode(Loan.toString()) +
+                "\n"
+            );
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public String readFile(String name) {
+        try {
+            File file = new File(name);
+            Scanner scan = new Scanner(file);
+            String encrypted = "";
+            while (scan.hasNextLine()) {
+                encrypted = encrypted + scan.nextLine() + "\n";
+            }
+            scan.close();
+            return encrypted;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public void purchaseAPI(purchase purchase) {
@@ -115,25 +130,13 @@ public class account {
     }
 
     public loan[] sortedLoans() {
-        try {
-            File file = new File(loanFileName);
-            Scanner scan = new Scanner(file);
-            String encrypted = "";
-            while (scan.hasNextLine()) {
-                encrypted = encrypted + scan.nextLine();
-            }
-            String string = encryptKey.decode(encrypted);
-            String[] lines = string.split("\n");
-            loan[] loans = new loan[lines.length];
-            for (int i = 0; i < lines.length; i++) {
-                loans[i] = new loan(1.00, 1.01);
-            }
-
-            return loans;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        String string = readFile(loanFileName);
+        String[] lines = string.split("\n");
+        loan[] loans = new loan[lines.length];
+        for (int i = 0; i < lines.length; i++) {
+            loans[i] = new loan(1.00, 1.01);
         }
-        return null;
+        return loans;
     }
 
     /**
@@ -146,6 +149,7 @@ public class account {
         loan newLoan = new loan(amount, interest);
         saveLoan(newLoan);
         this.balance += amount;
+        System.out.println("Loan of $" + amount + " taken successfully!");
     }
 
     /**
@@ -154,7 +158,6 @@ public class account {
      * @param amount The loan amount
      */
     public void takeLoan(double amount) {
-        System.out.println("Loan of $" + amount + " taken successfully!");
         this.loanBackend(amount, 1.10);
     }
 }

@@ -1,18 +1,13 @@
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Represents a student account with special loan conditions.
  */
 public class studentAccount extends account {
 
-    public studentAccount(
-        String passportNumber,
-        int birthYear,
-        String firstName
-    ) {
-        super(passportNumber, birthYear, firstName);
-        Date currentDate = new Date();
-        if (birthYear - currentDate.getYear() > 18) { // Deprecated but idk why
+    public studentAccount(int birthYear, String firstName) {
+        super(birthYear, firstName);
+        if (Calendar.getInstance().get(Calendar.YEAR) - birthYear > 18) { // Deprecated but idk why
             throw new IllegalArgumentException(
                 "Student must be under 18 years old"
             );
