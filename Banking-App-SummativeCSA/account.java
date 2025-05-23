@@ -1,15 +1,16 @@
+import java.util.ArrayList;
+
 /**
  * Represents a bank account with user information and financial data.
  */
 public class account {
 
     // User information
-    private int userID;
     private String passportNumber;
     private int birthdate;
 
     // Dynamic data
-    private int balance;
+    private double balance;
     private ArrayList<loan> loans;
     private ArrayList<purchase> purchaseHistory;
 
@@ -18,18 +19,26 @@ public class account {
      */
     public account() {
         this.balance = 0;
-        this.loans = new ArrayList<Loan>();
-        this.purchaseHistory = new ArrayList<Purchase>();
+        this.loans = new ArrayList<loan>();
+        this.purchaseHistory = new ArrayList<purchase>();
     }
 
-    public boolean purchase (account vendor, int amount) {
+    public boolean purchase(account vendor, double amount) {
+        purchase currentPurchase = new purchase(amount, vendor, this);
         if (this.balance < amount) {
             return false;
         } else {
             this.balance -= amount;
+            this.purchaseHistory.add(currentPurchase);
 
-
+            vendor.purchaseAPI(currentPurchase);
+            return true;
         }
+    }
+
+    public void purchaseAPI(purchase purchase) {
+        this.purchaseHistory.add(purchase);
+        this.balance += purchase.getAmount();
     }
 
     /**
@@ -38,8 +47,10 @@ public class account {
      * @param amount The loan amount
      * @param interest The interest rate as a decimal (e.g., 1.10 for 10% interest)
      */
-    protected void loanBackend(int amount, double interest) {
-
+    protected void loanBackend(double amount, double interest) {
+        loan newLoan = new loan(amount, interest);
+        this.loans.add(newLoan);
+        this.balance += amount;
     }
 
     /**
@@ -47,7 +58,8 @@ public class account {
      *
      * @param amount The loan amount
      */
-    public void takeLoan(int amount) {
+    public void takeLoan(double amount) {
+        System.out.println("Loan of $" + amount + " taken successfully!");
         this.loanBackend(amount, 1.10);
     }
-}    public boolean purchase (account vendor, int amount) {    public boolean purchase (account vendor, int amount) {
+}
