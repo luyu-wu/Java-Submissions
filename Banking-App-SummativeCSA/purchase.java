@@ -1,13 +1,20 @@
 public class purchase {
 
-    account vendorAcc;
-    account buyerAcc;
-    double amount;
+    private account vendorAcc;
+    private account buyerAcc;
+    private double amount;
+    private String purchaseDescription;
 
-    public purchase(double amount, account vendorAcc, account buyerAcc) {
+    public purchase(
+        double amount,
+        account vendorAcc,
+        account buyerAcc,
+        String purchaseDescription
+    ) {
         this.amount = amount;
         this.vendorAcc = vendorAcc;
         this.buyerAcc = buyerAcc;
+        this.purchaseDescription = purchaseDescription;
     }
 
     public double getAmount() {

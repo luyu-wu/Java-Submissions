@@ -1,14 +1,14 @@
 public class loan {
 
-    double amount;
-    double interestRate;
+    private double amount;
+    private double interestRate;
 
     public loan(double amount, double interestRate) {
         this.amount = amount;
         this.interestRate = interestRate;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
