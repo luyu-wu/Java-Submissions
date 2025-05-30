@@ -127,7 +127,7 @@ public class account {
     public void saveLoan(loan Loan) {
         try {
             FileWriter writer = new FileWriter(loanFileName, true);
-            writer.write(encryptKey.encode(Loan.toString()) + "\n");
+            writer.write(encryptKey.encode(Loan.toString()) + "\n"); // Appended write to the loan file
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -146,9 +146,9 @@ public class account {
     ) {
         int start_ind = str.indexOf("\n");
         int end_ind = str.indexOf("\n", start_ind + 1);
-        if (start_ind != -1 && end_ind != -1) {
+        if (start_ind != -1 && end_ind != -1) { // If the string is not ending
             double value = Double.parseDouble(
-                str.split("\\|")[0].split(":")[1]
+                str.split("\\|")[0].split(":")[1] // Find the first column of the string seperator, and the portion after semicolon
             );
             purchasesSoFar.add(value);
             if (str.length() > 5) {
@@ -177,7 +177,7 @@ public class account {
             if (price == Value) {
                 return str
                     .substring(start_ind, end_ind)
-                    .split("\\|")[4].split(":")[1];
+                    .split("\\|")[4].split(":")[1]; // Same logic as above, but with the fourth column
             } else {
                 return recurseFindPurchase(str.substring(end_ind - 1), Value);
             }
