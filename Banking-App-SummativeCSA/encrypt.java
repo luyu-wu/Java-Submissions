@@ -1,6 +1,6 @@
-// Taken from an earlier project (written by Luyu tho)
-// Minor edits were made to how this works
-
+/**
+ * A class for performing Caesar cipher encryption and decryption on text.
+ */
 public class encrypt {
 
     private int shift;
@@ -63,6 +63,12 @@ public class encrypt {
         'z',
     };
 
+    /**
+     * Constructs an encrypt object with the specified shift value.
+     *
+     * @param newShift The number of positions to shift characters in the cipher.
+     *                 If negative, wraps around to a positive shift value.
+     */
     public encrypt(int newShift) {
         // Fix extra
         if (newShift < 0) {
@@ -72,7 +78,12 @@ public class encrypt {
         }
     }
 
-    // Method to change shift value
+    /**
+     * Updates the shift value used for encryption/decryption.
+     *
+     * @param newShift The new number of positions to shift characters.
+     *                 If negative, wraps around to a positive shift value.
+     */
     public void newShift(int newShift) {
         if (newShift < 0) {
             shift = 26 + (newShift % 26);
@@ -81,7 +92,13 @@ public class encrypt {
         }
     }
 
-    // Method to encode a string given the object's shift property
+    /**
+     * Encrypts a message using the Caesar cipher with the current shift value.
+     *
+     * @param message The string to encrypt
+     * @return The encrypted string with each letter shifted by the shift value.
+     *         Non-letter characters remain unchanged.
+     */
     public String encode(String message) {
         char[] list = message.toCharArray();
 
@@ -110,6 +127,13 @@ public class encrypt {
         return shiftedString.toString();
     }
 
+    /**
+     * Decrypts a message that was encrypted using the Caesar cipher.
+     *
+     * @param decodeString The encrypted string to decrypt
+     * @return The decrypted string with each letter shifted back by the shift value.
+     *         Non-letter characters remain unchanged.
+     */
     public String decode(String decodeString) {
         // Save the original value of the shift
         newShift(-shift);
