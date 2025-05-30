@@ -23,6 +23,9 @@ public class account {
 
     /**
      * Default constructor for creating a new account.
+     *
+     * @param birthYear The year of birth for the account holder
+     * @param firstName The first name of the account holder
      */
     public account(int birthYear, String firstName) {
         this.birthdate = new Date(birthYear);
@@ -54,14 +57,32 @@ public class account {
         }
     }
 
+    /**
+     * Gets the current balance of the account.
+     *
+     * @return The current balance
+     */
     public double getBalance() {
         return balance;
     }
 
+    /**
+     * Gets the first name of the account holder.
+     *
+     * @return The account holder's first name
+     */
     public String getName() {
         return firstName;
     }
 
+    /**
+     * Makes a purchase from a vendor.
+     *
+     * @param vendor The vendor account receiving the payment
+     * @param amount The amount of the purchase
+     * @param purchaseDescription Description of what was purchased
+     * @return true if purchase was successful, false if insufficient funds
+     */
     public boolean purchase(
         account vendor,
         double amount,
@@ -83,6 +104,11 @@ public class account {
         }
     }
 
+    /**
+     * Saves a purchase to the purchase history file.
+     *
+     * @param Purchase The purchase to save
+     */
     public void savePurchase(purchase Purchase) {
         try {
             FileWriter writer = new FileWriter(purchaseFileName, true);
@@ -93,6 +119,11 @@ public class account {
         }
     }
 
+    /**
+     * Saves a loan to the loan history file.
+     *
+     * @param Loan The loan to save
+     */
     public void saveLoan(loan Loan) {
         try {
             FileWriter writer = new FileWriter(loanFileName, true);
@@ -103,6 +134,12 @@ public class account {
         }
     }
 
+    /**
+     * Recursively extracts purchase amounts from a string representation.
+     *
+     * @param str The string containing purchase data
+     * @param purchasesSoFar List to store extracted purchase amounts
+     */
     private void recurseStringPurchases(
         String str,
         ArrayList<Double> purchasesSoFar
@@ -123,6 +160,13 @@ public class account {
         }
     }
 
+    /**
+     * Recursively searches for a purchase with specific value.
+     *
+     * @param str The string to search in
+     * @param Value The purchase value to find
+     * @return The description of the found purchase or "COULD NOT FIND" if not found
+     */
     private String recurseFindPurchase(String str, double Value) {
         int start_ind = str.indexOf("\n");
         int end_ind = str.indexOf("\n", start_ind + 1);
@@ -142,10 +186,21 @@ public class account {
         }
     }
 
+    /**
+     * Finds a purchase by its value.
+     *
+     * @param Value The value of the purchase to find
+     * @return The description of the found purchase
+     */
     public String findPurchase(double Value) {
         return recurseFindPurchase(this.readFile(purchaseFileName), Value);
     }
 
+    /**
+     * Reads all purchases from the purchase history file.
+     *
+     * @return List of purchase amounts
+     */
     public ArrayList<Double> readPurchases() {
         String file = readFile(purchaseFileName);
         ArrayList<Double> values = new ArrayList<Double>();
@@ -153,6 +208,11 @@ public class account {
         return values;
     }
 
+    /**
+     * Returns a sorted list of purchases in descending order.
+     *
+     * @return Sorted list of purchase amounts
+     */
     public ArrayList<Double> sortedPurchases() {
         ArrayList<Double> purchases = readPurchases();
         int n = purchases.size();
@@ -173,6 +233,12 @@ public class account {
         return purchases;
     }
 
+    /**
+     * Reads and decrypts a file.
+     *
+     * @param name The name of the file to read
+     * @return The decrypted contents of the file
+     */
     public String readFile(String name) {
         try {
             File file = new File(name);
@@ -189,11 +255,21 @@ public class account {
         return null;
     }
 
+    /**
+     * Processes a purchase and updates the vendor's balance.
+     *
+     * @param purchase The purchase to process
+     */
     public void purchaseAPI(purchase purchase) {
         this.savePurchase(purchase);
         this.balance += purchase.getAmount();
     }
 
+    /**
+     * Returns an array of sorted loans.
+     *
+     * @return Array of loans in sorted order
+     */
     public loan[] sortedLoans() {
         String string = readFile(loanFileName);
         String[] lines = string.split("\n");
