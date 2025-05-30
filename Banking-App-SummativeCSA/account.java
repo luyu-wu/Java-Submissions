@@ -3,7 +3,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -124,11 +123,54 @@ public class account {
         }
     }
 
+    private String recurseFindPurchase(String str, double Value) {
+        int start_ind = str.indexOf("\n");
+        int end_ind = str.indexOf("\n", start_ind + 1);
+        if (start_ind != -1 && end_ind != -1) {
+            double price = Double.parseDouble(
+                str.split("\\|")[0].split(":")[1]
+            );
+            if (price == Value) {
+                return str
+                    .substring(start_ind, end_ind)
+                    .split("\\|")[4].split(":")[1];
+            } else {
+                return recurseFindPurchase(str.substring(end_ind - 1), Value);
+            }
+        } else {
+            return "COULD NOT FIND";
+        }
+    }
+
+    public String findPurchase(double Value) {
+        return recurseFindPurchase(this.readFile(purchaseFileName), Value);
+    }
+
     public ArrayList<Double> readPurchases() {
         String file = readFile(purchaseFileName);
         ArrayList<Double> values = new ArrayList<Double>();
         recurseStringPurchases(file, values);
         return values;
+    }
+
+    public ArrayList<Double> sortedPurchases() {
+        ArrayList<Double> purchases = readPurchases();
+        int n = purchases.size();
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (purchases.get(j) > purchases.get(minIndex)) {
+                    minIndex = j;
+                }
+            }
+
+            Double temp = purchases.get(minIndex);
+            purchases.set(minIndex, purchases.get(i));
+            purchases.set(i, temp);
+        }
+
+        return purchases;
     }
 
     public String readFile(String name) {
