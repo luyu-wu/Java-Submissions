@@ -1,9 +1,9 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -102,6 +102,23 @@ public class account {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List readPurchases() {
+        ArrayList<purchase> arrList = new ArrayList<purchase>();
+        String file = readFile(purchaseFileName);
+        String[] purchases = file.split("\n");
+        for (String current : purchases) {
+            System.out.println(current);
+            purchase currentPurchase = new purchase(
+                Double.parseDouble(current.split("\\|")[0].split(":")[1]),
+                new account(2000, current.split("\\|")[1].split(":")[1]),
+                new account(2000, current.split("\\|")[2].split(":")[1]),
+                current.split("\\|")[4].split(":")[1]
+            );
+            arrList.add(currentPurchase);
+        }
+        return arrList;
     }
 
     public String readFile(String name) {
