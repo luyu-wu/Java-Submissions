@@ -5,5 +5,6 @@ public class main {
         //System.out.println(student.readFile("Data/JohnLOANHISTORY.txt"));
         account.takeLoan(21039);
         System.out.println(account.getBalance());
+        System.out.println(account.readPurchases());
     }
 }

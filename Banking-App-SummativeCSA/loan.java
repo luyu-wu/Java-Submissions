@@ -6,10 +6,12 @@ public class loan {
     private double interestRate;
     private Date date;
 
-    public loan(double amount, double interestRate) {
+    public loan(double amount, double interestRate, account account) {
         this.amount = amount;
         this.interestRate = interestRate;
         this.date = new Date();
+        purchase pay = new purchase(amount, account, account, "Loan Payment");
+        account.purchaseAPI(pay);
     }
 
     public double getAmount() {

@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class accountParser {
 
+    // Parser is largely written by AI (for some reason given with text input)
+    // Light modifications by me to fix errors
     public static account createAccountFromFile(String filePath) {
         try {
             File file = new File(filePath);

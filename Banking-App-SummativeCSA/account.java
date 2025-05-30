@@ -104,21 +104,31 @@ public class account {
         }
     }
 
-    public List readPurchases() {
-        ArrayList<purchase> arrList = new ArrayList<purchase>();
-        String file = readFile(purchaseFileName);
-        String[] purchases = file.split("\n");
-        for (String current : purchases) {
-            System.out.println(current);
-            purchase currentPurchase = new purchase(
-                Double.parseDouble(current.split("\\|")[0].split(":")[1]),
-                new account(2000, current.split("\\|")[1].split(":")[1]),
-                new account(2000, current.split("\\|")[2].split(":")[1]),
-                current.split("\\|")[4].split(":")[1]
+    private void recurseStringPurchases(
+        String str,
+        ArrayList<Double> purchasesSoFar
+    ) {
+        int start_ind = str.indexOf("\n");
+        int end_ind = str.indexOf("\n", start_ind + 1);
+        if (start_ind != -1 && end_ind != -1) {
+            double value = Double.parseDouble(
+                str.split("\\|")[0].split(":")[1]
             );
-            arrList.add(currentPurchase);
+            purchasesSoFar.add(value);
+            if (str.length() > 5) {
+                recurseStringPurchases(
+                    str.substring(end_ind - 1),
+                    purchasesSoFar
+                );
+            }
         }
-        return arrList;
+    }
+
+    public ArrayList<Double> readPurchases() {
+        String file = readFile(purchaseFileName);
+        ArrayList<Double> values = new ArrayList<Double>();
+        recurseStringPurchases(file, values);
+        return values;
     }
 
     public String readFile(String name) {
@@ -146,9 +156,7 @@ public class account {
         String string = readFile(loanFileName);
         String[] lines = string.split("\n");
         loan[] loans = new loan[lines.length];
-        for (int i = 0; i < lines.length; i++) {
-            loans[i] = new loan(1.00, 1.01);
-        }
+
         return loans;
     }
 
@@ -159,9 +167,8 @@ public class account {
      * @param interest The interest rate as a decimal (e.g., 1.10 for 10% interest)
      */
     protected void loanBackend(double amount, double interest) {
-        loan newLoan = new loan(amount, interest);
+        loan newLoan = new loan(amount, interest, this);
         saveLoan(newLoan);
-        this.balance += amount;
         System.out.println("Loan of $" + amount + " taken successfully!");
     }
 
